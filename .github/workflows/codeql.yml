@@ -30,7 +30,7 @@ jobs:
 
       # 3. Initialize CodeQL
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: java
 
@@ -40,7 +40,7 @@ jobs:
 
       # 5. Perform CodeQL analysis (save SARIF locally)
       - name: Run CodeQL analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           output: sarif-results
 
