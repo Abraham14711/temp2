@@ -1,0 +1,47 @@
+name: CodeQL Analysis
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java  # поменяй на нужный язык (cpp, java, javascript, etc.)
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Run CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          output: sarif-results
+
+      # 👉 Конвертация SARIF → JSON
+      - name: Convert SARIF to JSON
+        run: |
+          mkdir out
+          cp sarif-results/*.sarif out/results.sarif
+          jq '.' out/results.sarif > out/results.json
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-results
+          path: out/
