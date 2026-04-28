@@ -25,8 +25,14 @@ jobs:
         with:
           languages: java  # поменяй на нужный язык (cpp, java, javascript, etc.)
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+      - name: Set up JDK
+	uses: actions/setup-java@v4
+	with:
+	  distribution: 'temurin'
+	  java-version: '17'
+
+      - name: Build
+	run: mvn clean install -DskipTests
 
       - name: Run CodeQL analysis
         uses: github/codeql-action/analyze@v3
