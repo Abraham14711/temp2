@@ -1,4 +1,4 @@
-name: CodeQL Java Analysis (JSON output)
+kname: CodeQL Java Analysis (JSON output)
 
 on:
   push:
